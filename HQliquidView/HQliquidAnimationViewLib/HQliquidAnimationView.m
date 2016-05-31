@@ -8,9 +8,9 @@
 
 #import "HQliquidAnimationView.h"
 
-#define kFromRadiusScaleCoefficient     0.1f
+#define kFromRadiusScaleCoefficient     0.06f
 #define kToRadiusScaleCoefficient       0.1f
-#define kMaxDistanceScaleCoefficient    9.0f
+#define kMaxDistanceScaleCoefficient    11.0f
 
 static inline CGFloat distanceBetweenPoints (CGPoint pointA, CGPoint pointB) {
     CGFloat deltaX = pointB.x - pointA.x;
@@ -144,7 +144,7 @@ static inline CGFloat distanceBetweenPoints (CGPoint pointA, CGPoint pointB) {
 - (void)updateRadius {
     CGFloat r = distanceBetweenPoints(_oringinCenter, _currentMovingPoint);
     _fromRadius = self.radius*0.5-kFromRadiusScaleCoefficient*r;
-    _toRadius = self.radius*0.5-kToRadiusScaleCoefficient*r;
+    _toRadius = self.radius*kToRadiusScaleCoefficient;
     _viscosity = 1.0-r/_maxDistance;
     
     [self setNeedsDisplay];
