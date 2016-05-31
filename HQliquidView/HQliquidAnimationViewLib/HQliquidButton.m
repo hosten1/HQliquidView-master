@@ -108,6 +108,7 @@
             self.hidden = NO;
 //            NSLog(@"UIGestureRecognizerStateEnded");
             [self.liquidAnimationView removeFromSuperview];
+            
         }
             break;
         case UIGestureRecognizerStateCancelled:
@@ -115,6 +116,7 @@
             self.hidden = NO;
 //            NSLog(@"UIGestureRecognizerStateEnded");
             [self.liquidAnimationView removeFromSuperview];
+            
         }
             break;
 

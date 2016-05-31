@@ -58,10 +58,12 @@
             default:
                 break;
         }
-        HQliquidButton *redPoint = [[HQliquidButton alloc] initWithLocationCenter:CGPointMake(200, 20) bagdeNumber:num ];
-        redPoint.bagdeLableWidth = 16;
+        HQliquidButton *redPoint = [[HQliquidButton alloc] initWithLocationCenter:CGPointMake(200,20) bagdeNumber:num ];
+        redPoint.bagdeLableWidth = 18;
         [cell.contentView addSubview:redPoint];
+     
     }
+    cell.textLabel.text = @"hahhah";
     return cell;
 }
 
