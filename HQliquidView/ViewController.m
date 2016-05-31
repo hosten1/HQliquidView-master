@@ -68,7 +68,7 @@
             default:
                 break;
         }
-        HQliquidButton *redPoint = [[HQliquidButton alloc] initWithLocationCenter:CGPointMake(200,20) bagdeNumber:num ];
+        HQliquidButton *redPoint = [[HQliquidButton alloc] initWithLocationCenter:CGPointMake(self.view.bounds.size.width-30,25) bagdeNumber:num ];
         redPoint.bagdeLableWidth = 18;
         [cell.contentView addSubview:redPoint];
      
