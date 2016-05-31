@@ -7,7 +7,9 @@
 //
 
 #import "AppDelegate.h"
-
+#import "TabbarViewController.h"
+#import "ViewController.h"
+#import "oneViewController.h"
 @interface AppDelegate ()
 
 @end
@@ -17,6 +19,19 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    ViewController *vc = [[ViewController alloc]init];
+     vc.tabBarItem.title = @"测试";
+     vc.tabBarItem.image = [UIImage imageNamed:@"wm_footbar_personcenter_press"];
+    
+    oneViewController *one = [[oneViewController alloc]init];
+     one.tabBarItem.title = @"测试1";
+     one.tabBarItem.image = [UIImage imageNamed:@"myadd_u"];
+    TabbarViewController *tabVC = [[TabbarViewController alloc]init];
+   
+    tabVC .viewControllers = @[vc,one];
+       [self.window setRootViewController:tabVC];
+    [self.window makeKeyAndVisible];
     return YES;
 }
 

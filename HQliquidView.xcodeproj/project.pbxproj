@@ -15,6 +15,8 @@
 		4DAFBE141B180A3B0061FD34 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DAFBE121B180A3B0061FD34 /* LaunchScreen.xib */; };
 		4DAFBE201B180A3B0061FD34 /* HQliquidViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DAFBE1F1B180A3B0061FD34 /* HQliquidViewTests.m */; };
 		6D4E27491CFBE1FD00E9D4D6 /* UILabel+ContentSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4E27481CFBE1FD00E9D4D6 /* UILabel+ContentSize.m */; };
+		6D762A851CFD80BB00D48F42 /* TabbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D762A841CFD80BB00D48F42 /* TabbarViewController.m */; };
+		6D762A881CFD829B00D48F42 /* oneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D762A871CFD829B00D48F42 /* oneViewController.m */; };
 		7F98A1111B1DC44F008C892F /* HQliquidAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F98A10E1B1DC44F008C892F /* HQliquidAnimationView.m */; };
 		7F98A1121B1DC44F008C892F /* HQliquidButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F98A1101B1DC44F008C892F /* HQliquidButton.m */; };
 /* End PBXBuildFile section */
@@ -45,6 +47,10 @@
 		4DAFBE1F1B180A3B0061FD34 /* HQliquidViewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HQliquidViewTests.m; sourceTree = "<group>"; };
 		6D4E27471CFBE1FD00E9D4D6 /* UILabel+ContentSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+ContentSize.h"; sourceTree = "<group>"; };
 		6D4E27481CFBE1FD00E9D4D6 /* UILabel+ContentSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+ContentSize.m"; sourceTree = "<group>"; };
+		6D762A831CFD80BB00D48F42 /* TabbarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabbarViewController.h; sourceTree = "<group>"; };
+		6D762A841CFD80BB00D48F42 /* TabbarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabbarViewController.m; sourceTree = "<group>"; };
+		6D762A861CFD829B00D48F42 /* oneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = oneViewController.h; sourceTree = "<group>"; };
+		6D762A871CFD829B00D48F42 /* oneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = oneViewController.m; sourceTree = "<group>"; };
 		7F98A10D1B1DC44F008C892F /* HQliquidAnimationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQliquidAnimationView.h; sourceTree = "<group>"; };
 		7F98A10E1B1DC44F008C892F /* HQliquidAnimationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HQliquidAnimationView.m; sourceTree = "<group>"; };
 		7F98A10F1B1DC44F008C892F /* HQliquidButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQliquidButton.h; sourceTree = "<group>"; };
@@ -99,6 +105,10 @@
 				4DAFBE101B180A3B0061FD34 /* Images.xcassets */,
 				4DAFBE121B180A3B0061FD34 /* LaunchScreen.xib */,
 				4DAFBE031B180A3B0061FD34 /* Supporting Files */,
+				6D762A831CFD80BB00D48F42 /* TabbarViewController.h */,
+				6D762A841CFD80BB00D48F42 /* TabbarViewController.m */,
+				6D762A861CFD829B00D48F42 /* oneViewController.h */,
+				6D762A871CFD829B00D48F42 /* oneViewController.m */,
 			);
 			path = HQliquidView;
 			sourceTree = "<group>";
@@ -247,8 +257,10 @@
 				6D4E27491CFBE1FD00E9D4D6 /* UILabel+ContentSize.m in Sources */,
 				4DAFBE0C1B180A3B0061FD34 /* ViewController.m in Sources */,
 				7F98A1121B1DC44F008C892F /* HQliquidButton.m in Sources */,
+				6D762A851CFD80BB00D48F42 /* TabbarViewController.m in Sources */,
 				4DAFBE091B180A3B0061FD34 /* AppDelegate.m in Sources */,
 				4DAFBE061B180A3B0061FD34 /* main.m in Sources */,
+				6D762A881CFD829B00D48F42 /* oneViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

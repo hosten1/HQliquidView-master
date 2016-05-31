@@ -15,8 +15,18 @@
 
 @implementation ViewController
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    CGRect tabFrame =self.tabBarController.tabBar.frame;
+    CGFloat scale = [UIScreen mainScreen].bounds.size.width/375;
+    float percentX = (0.6/3)*scale;
+    CGFloat x = ceilf(percentX * tabFrame.size.width+(5*scale));
+    //    NSLog(@"tabbar >>>>>:%lf",it);
+        HQliquidButton *redPoint = [[HQliquidButton alloc] initWithLocationCenter:CGPointMake(x+20,5) bagdeNumber:10];
+        redPoint.bagdeLableWidth = 18;
+        [self.tabBarController.tabBar addSubview:redPoint];
+
     // Do any additional setup after loading the view, typically from a nib.
     
 //    HQliquidButton *redPoint = [[HQliquidButton alloc] initWithLocationCenter:CGPointMake(100, 200) bagdeNumber:200];
