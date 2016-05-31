@@ -73,7 +73,7 @@
         [cell.contentView addSubview:redPoint];
      
     }
-    cell.textLabel.text = @"hahhah";
+    cell.textLabel.text = @"测试cell";
     return cell;
 }
 

@@ -17,6 +17,7 @@
 		6D4E27491CFBE1FD00E9D4D6 /* UILabel+ContentSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4E27481CFBE1FD00E9D4D6 /* UILabel+ContentSize.m */; };
 		6D762A851CFD80BB00D48F42 /* TabbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D762A841CFD80BB00D48F42 /* TabbarViewController.m */; };
 		6D762A881CFD829B00D48F42 /* oneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D762A871CFD829B00D48F42 /* oneViewController.m */; };
+		6D762A8A1CFD8FC000D48F42 /* recode.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6D762A891CFD8FC000D48F42 /* recode.gif */; };
 		7F98A1111B1DC44F008C892F /* HQliquidAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F98A10E1B1DC44F008C892F /* HQliquidAnimationView.m */; };
 		7F98A1121B1DC44F008C892F /* HQliquidButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F98A1101B1DC44F008C892F /* HQliquidButton.m */; };
 /* End PBXBuildFile section */
@@ -51,6 +52,7 @@
 		6D762A841CFD80BB00D48F42 /* TabbarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabbarViewController.m; sourceTree = "<group>"; };
 		6D762A861CFD829B00D48F42 /* oneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = oneViewController.h; sourceTree = "<group>"; };
 		6D762A871CFD829B00D48F42 /* oneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = oneViewController.m; sourceTree = "<group>"; };
+		6D762A891CFD8FC000D48F42 /* recode.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = recode.gif; sourceTree = "<group>"; };
 		7F98A10D1B1DC44F008C892F /* HQliquidAnimationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQliquidAnimationView.h; sourceTree = "<group>"; };
 		7F98A10E1B1DC44F008C892F /* HQliquidAnimationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HQliquidAnimationView.m; sourceTree = "<group>"; };
 		7F98A10F1B1DC44F008C892F /* HQliquidButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQliquidButton.h; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 				4DAFBE081B180A3B0061FD34 /* AppDelegate.m */,
 				4DAFBE0A1B180A3B0061FD34 /* ViewController.h */,
 				4DAFBE0B1B180A3B0061FD34 /* ViewController.m */,
+				6D762A891CFD8FC000D48F42 /* recode.gif */,
 				4DAFBE0D1B180A3B0061FD34 /* Main.storyboard */,
 				4DAFBE101B180A3B0061FD34 /* Images.xcassets */,
 				4DAFBE121B180A3B0061FD34 /* LaunchScreen.xib */,
@@ -233,6 +236,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D762A8A1CFD8FC000D48F42 /* recode.gif in Resources */,
 				4DAFBE0F1B180A3B0061FD34 /* Main.storyboard in Resources */,
 				4DAFBE141B180A3B0061FD34 /* LaunchScreen.xib in Resources */,
 				4DAFBE111B180A3B0061FD34 /* Images.xcassets in Resources */,
