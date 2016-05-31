@@ -16,7 +16,7 @@ typedef NS_ENUM(NSInteger, HQliquidAnimationViewState) {
 
 @interface HQliquidAnimationView : UIView
 
-@property (nonatomic, copy) NSString * badgeNumber;
+@property (nonatomic, assign) NSInteger badgeNumber;
 
 @property (nonatomic, assign) CGPoint oringinCenter;  //初始点
 @property (nonatomic, assign) CGPoint currentMovingPoint;   //当前点

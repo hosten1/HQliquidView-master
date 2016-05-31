@@ -17,7 +17,7 @@
 #define LAST_WINDOW [[UIApplication sharedApplication].windows lastObject]
 
 #define kLableX self.frame.origin.x
-#define kLavleY self.frame.origin.y
+#define kLableY self.frame.origin.y
 
 @interface HQliquidButton()
 
@@ -42,7 +42,7 @@
         
         _bagdeNumber = badgeNumber;
 
-        self.frame = CGRectMake(kLableX, kLavleY, 20, 20);
+        self.frame = CGRectMake(kLableX, kLableY, 20, 20);
         [self addSubview:self.badgeLabel];
         [self updateBagdeNumber:badgeNumber];
         
@@ -62,18 +62,18 @@
 {
     _bagdeNumber = bagdeNumber;
     if (bagdeNumber < 10) {
-      
-        self.frame = CGRectMake(kLableX, kLavleY, _bagdeLableWidth, _bagdeLableWidth);
+        NSLog(@"%lf",kLableY);
+        self.frame = CGRectMake(kLableX, kLableY, _bagdeLableWidth, _bagdeLableWidth);
         self.badgeLabel.center = CGPointMake(self.bounds.size.width*0.51, self.bounds.size.height*0.48);
         self.badgeLabel.text = [NSString stringWithFormat:@"%d",bagdeNumber];
     }else if (bagdeNumber < 100) {
     
-        self.frame = CGRectMake(kLableX-2, kLavleY, _bagdeLableWidth+4, _bagdeLableWidth);
+        self.frame = CGRectMake(kLableX-2, kLableY, _bagdeLableWidth+4, _bagdeLableWidth);
         self.badgeLabel.center = CGPointMake(self.bounds.size.width*0.51, self.bounds.size.height*0.48);
         self.badgeLabel.text = [NSString stringWithFormat:@"%d",bagdeNumber];
     }else{
         
-        self.frame = CGRectMake(kLableX-4, kLavleY, _bagdeLableWidth+8, _bagdeLableWidth);
+        self.frame = CGRectMake(kLableX-4, kLableY, _bagdeLableWidth+8, _bagdeLableWidth);
         self.badgeLabel.center = CGPointMake(self.bounds.size.width*0.51, self.bounds.size.height*0.48);
         self.badgeLabel.text = @"99+";
     }
@@ -93,7 +93,7 @@
             CGPoint originCenter = [self convertPoint:CGPointMake(10, 10) toView:(UIWindow *)LAST_WINDOW];
             self.liquidAnimationView.oringinCenter = originCenter;
             self.liquidAnimationView.radius = self.bounds.size.height*0.5;
-            self.liquidAnimationView.badgeNumber = self.badgeLabel.text;
+            self.liquidAnimationView.badgeNumber = self.bagdeNumber;
             self.liquidAnimationView.maxWidth = self.bounds.size.width;
             [self.liquidAnimationView clearViewState];
         }

@@ -58,9 +58,9 @@
             default:
                 break;
         }
-        HQliquidButton *redPoint = [[HQliquidButton alloc] initWithLocationCenter:CGPointMake(300, 10) bagdeNumber:num];
+        HQliquidButton *redPoint = [[HQliquidButton alloc] initWithLocationCenter:CGPointMake(200, 20) bagdeNumber:num ];
         redPoint.bagdeLableWidth = 16;
-        [cell addSubview:redPoint];
+        [cell.contentView addSubview:redPoint];
     }
     return cell;
 }
