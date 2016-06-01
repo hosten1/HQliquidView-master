@@ -41,11 +41,11 @@
         self.backgroundColor = [UIColor redColor];
         
         _bagdeNumber = badgeNumber;
-
-        self.frame = CGRectMake(kLableX, kLableY, 20, 20);
+       
+        self.frame = CGRectMake(kLableX, kLableY, 30, 30);
         [self addSubview:self.badgeLabel];
         [self updateBagdeNumber:badgeNumber];
-        
+
         //添加手势
         UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(gestureAction:)];
         [self addGestureRecognizer:pan];
@@ -61,6 +61,9 @@
 -(void)updateBagdeNumber:(int)bagdeNumber
 {
     _bagdeNumber = bagdeNumber;
+    if (!self.bagdeLableWidth) {
+        _bagdeLableWidth = 20;
+    }
     if (bagdeNumber < 10) {
         NSLog(@"%lf",kLableY);
         self.frame = CGRectMake(kLableX, kLableY, _bagdeLableWidth, _bagdeLableWidth);
@@ -68,18 +71,32 @@
         self.badgeLabel.text = [NSString stringWithFormat:@"%d",bagdeNumber];
     }else if (bagdeNumber < 100) {
     
-        self.frame = CGRectMake(kLableX-2, kLableY, _bagdeLableWidth+4, _bagdeLableWidth);
+        self.frame = CGRectMake(kLableX-2, kLableY, _bagdeLableWidth+5, _bagdeLableWidth);
         self.badgeLabel.center = CGPointMake(self.bounds.size.width*0.51, self.bounds.size.height*0.48);
         self.badgeLabel.text = [NSString stringWithFormat:@"%d",bagdeNumber];
     }else{
         
-        self.frame = CGRectMake(kLableX-4, kLableY, _bagdeLableWidth+8, _bagdeLableWidth);
+        self.frame = CGRectMake(kLableX-4, kLableY, _bagdeLableWidth+10, _bagdeLableWidth);
         self.badgeLabel.center = CGPointMake(self.bounds.size.width*0.51, self.bounds.size.height*0.48);
         self.badgeLabel.text = @"99+";
     }
     self.layer.cornerRadius = self.bounds.size.height*0.5;
 }
-
+-(BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event{
+    CGPoint touchCenter = point;
+    CGPoint viewCenter = self.center;
+    CGRect viewRect = self.frame;
+    
+    BOOL flag =  CGRectContainsPoint(viewRect, touchCenter);
+    CGFloat squlitValue = sqrtf(fabs(touchCenter.x)*fabs(touchCenter.x)+fabs(touchCenter.y)*fabs(touchCenter.y));
+    if (squlitValue < 30) {
+        flag = YES;
+    }
+    
+//    BOOL flag = CGPointEqualToPoint(touchCenter, viewCenter);
+    NSLog(@"%d   %lf  %lf",flag,squlitValue,viewRect.size.width);
+    return flag;
+}
 #pragma mark - gesture
 -(void)gestureAction:(UIPanGestureRecognizer *)pan
 {
@@ -95,6 +112,7 @@
             self.liquidAnimationView.radius = self.bounds.size.height*0.5;
             self.liquidAnimationView.badgeNumber = self.bagdeNumber;
             self.liquidAnimationView.maxWidth = self.bounds.size.width;
+            self.liquidAnimationView.maxDistance = self.maxDistance;
             [self.liquidAnimationView clearViewState];
         }
             break;

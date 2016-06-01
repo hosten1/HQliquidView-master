@@ -60,16 +60,17 @@
                 num = 99;
                 break;
             case 3:
-                num = 9333;
+                num = 99;
                 break;
 
 
  
             default:
+                num=99;
                 break;
         }
-        HQliquidButton *redPoint = [[HQliquidButton alloc] initWithLocationCenter:CGPointMake(self.view.bounds.size.width-30,25) bagdeNumber:num ];
-        redPoint.bagdeLableWidth = 18;
+        HQliquidButton *redPoint = [[HQliquidButton alloc] initWithLocationCenter:CGPointMake(self.view.bounds.size.width-30,20) bagdeNumber:num ];
+        redPoint.bagdeLableWidth = 20;
         [cell.contentView addSubview:redPoint];
         redPoint.dragLiquidBlock = ^(HQliquidButton *liquid) {
             NSLog(@"回调乐");

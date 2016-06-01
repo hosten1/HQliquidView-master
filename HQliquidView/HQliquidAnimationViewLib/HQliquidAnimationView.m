@@ -10,7 +10,6 @@
 
 #define kFromRadiusScaleCoefficient     0.06f
 #define kToRadiusScaleCoefficient       0.1f
-#define kMaxDistanceScaleCoefficient    11.0f
 
 static inline CGFloat distanceBetweenPoints (CGPoint pointA, CGPoint pointB) {
     CGFloat deltaX = pointB.x - pointA.x;
@@ -72,6 +71,9 @@ static inline CGFloat distanceBetweenPoints (CGPoint pointA, CGPoint pointB) {
 
 -(void)setCurrentDistance:(float)currentDistance
 {
+    if (!self.maxDistance) {
+        _maxDistance = 100.0f;
+    }
     _currentDistance = currentDistance;
     if (_currentDistance > _maxDistance) {
         _currentState = HQliquidAnimationViewStateSeperated;
@@ -81,7 +83,10 @@ static inline CGFloat distanceBetweenPoints (CGPoint pointA, CGPoint pointB) {
 -(void)setRadius:(float)radius
 {
     _radius = radius;
-    _maxDistance = kMaxDistanceScaleCoefficient * _radius;
+    if (!self.maxDistance) {
+         _maxDistance = 100.0f;
+    }
+   
 }
 
 #pragma mark drawCode
@@ -176,10 +181,10 @@ static inline CGFloat distanceBetweenPoints (CGPoint pointA, CGPoint pointB) {
     
    CGFloat  r1 = fromRadius;
    CGFloat  r2 = toRadius;
-   CGPoint  pointA = CGPointMake(x1-r1*cosDigree, y1+r1*sinDigree);  // A
-   CGPoint pointB = CGPointMake(x1+r1*cosDigree, y1-r1*sinDigree); // B
-   CGPoint pointD = CGPointMake(x2-r2*cosDigree, y2+r2*sinDigree); // D
-   CGPoint pointC = CGPointMake(x2+r2*cosDigree, y2-r2*sinDigree);// C
+   CGPoint pointA = CGPointMake(x1-r1*cosDigree, y1+r1*sinDigree);  // A
+   CGPoint pointB = CGPointMake(x1+r1*cosDigree, y1-r1*sinDigree);  // B
+   CGPoint pointD = CGPointMake(x2-r2*cosDigree, y2+r2*sinDigree);  // D
+   CGPoint pointC = CGPointMake(x2+r2*cosDigree, y2-r2*sinDigree);  // C
    CGPoint pointO = CGPointMake(pointA.x + (centerDistance / 2)*sinDigree, pointA.y + (centerDistance / 2)*cosDigree);
    CGPoint pointP = CGPointMake(pointB.x + (centerDistance / 2)*sinDigree, pointB.y + (centerDistance / 2)*cosDigree);
     

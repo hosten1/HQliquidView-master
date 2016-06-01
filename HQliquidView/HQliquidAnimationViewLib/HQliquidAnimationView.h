@@ -21,7 +21,7 @@ typedef NS_ENUM(NSInteger, HQliquidAnimationViewState) {
 @property (nonatomic, assign) CGPoint oringinCenter;  //初始点
 @property (nonatomic, assign) CGPoint currentMovingPoint;   //当前点
 
-@property (nonatomic, assign, readonly) float maxDistance; //设置最大连接长度，当起始点与当前点的距离大于maxDistance后,那么就进去分离状态
+@property (nonatomic, assign) float maxDistance; //设置最大连接长度，当起始点与当前点的距离大于maxDistance后,那么就进去分离状态
 @property (nonatomic, assign) float maxWidth;
 @property (nonatomic, assign) float radius;
 
