@@ -23,7 +23,7 @@
     float percentX = (0.6/3)*scale;
     CGFloat x = ceilf(percentX * tabFrame.size.width+(5*scale));
     //    NSLog(@"tabbar >>>>>:%lf",it);
-        HQliquidButton *redPoint = [[HQliquidButton alloc] initWithLocationCenter:CGPointMake(x+20,5) bagdeNumber:10];
+        HQliquidButton *redPoint = [[HQliquidButton alloc] initWithLocationCenter:CGPointMake(x+25,0) bagdeNumber:10];
         redPoint.bagdeLableWidth = 18;
         [self.tabBarController.tabBar addSubview:redPoint];
 
@@ -71,6 +71,9 @@
         HQliquidButton *redPoint = [[HQliquidButton alloc] initWithLocationCenter:CGPointMake(self.view.bounds.size.width-30,25) bagdeNumber:num ];
         redPoint.bagdeLableWidth = 18;
         [cell.contentView addSubview:redPoint];
+        redPoint.dragLiquidBlock = ^(HQliquidButton *liquid) {
+            NSLog(@"回调乐");
+        };
      
     }
     cell.textLabel.text = @"测试cell";

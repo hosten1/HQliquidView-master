@@ -7,10 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+@class HQliquidButton;
+
+typedef void(^dragLiquidViewDidStopReturnBlock)(HQliquidButton *liquid);
 
 @interface HQliquidButton : UIView
 
 @property (nonatomic, assign, readonly) int bagdeNumber;
+@property (nonatomic, copy) dragLiquidViewDidStopReturnBlock dragLiquidBlock;
 @property (nonatomic, assign) CGFloat bagdeLableWidth;
 
 -(instancetype)initWithLocationCenter:(CGPoint)center bagdeNumber:(int)badgeNumber;

@@ -106,6 +106,12 @@
         case UIGestureRecognizerStateEnded:
         {
             self.hidden = NO;
+            if (self.dragLiquidBlock) {
+                HQliquidButton *btn = [[HQliquidButton alloc]init];
+                
+                    self.dragLiquidBlock(btn);
+            
+            }
 //            NSLog(@"UIGestureRecognizerStateEnded");
             [self.liquidAnimationView removeFromSuperview];
             
