@@ -23,7 +23,7 @@
     float percentX = (0.6/3)*scale;
     CGFloat x = ceilf(percentX * tabFrame.size.width+(5*scale));
     //    NSLog(@"tabbar >>>>>:%lf",it);
-        HQliquidButton *redPoint = [[HQliquidButton alloc] initWithLocationCenter:CGPointMake(x+25,0) bagdeNumber:10];
+        HQliquidButton *redPoint = [[HQliquidButton alloc] initWithLocationCenter:CGPointMake(x,tabFrame.origin.y+2) bagdeNumber:10];
         redPoint.bagdeLableWidth = 18;
         [self.tabBarController.tabBar addSubview:redPoint];
 

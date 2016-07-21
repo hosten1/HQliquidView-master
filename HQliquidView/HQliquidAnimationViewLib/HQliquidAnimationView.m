@@ -76,6 +76,12 @@ static inline CGFloat distanceBetweenPoints (CGPoint pointA, CGPoint pointB) {
     }
     _currentDistance = currentDistance;
     if (_currentDistance > _maxDistance) {
+        if (self.distanceLiquidBlock) {
+            
+            self.distanceLiquidBlock(_currentDistance);
+            
+        }
+
         _currentState = HQliquidAnimationViewStateSeperated;
     }
 }
@@ -92,7 +98,7 @@ static inline CGFloat distanceBetweenPoints (CGPoint pointA, CGPoint pointB) {
 #pragma mark drawCode
 - (void)drawRect:(CGRect)rect {
     if (_maxDistance < _currentDistance || _currentState == HQliquidAnimationViewStateSeperated) {//分离
-        
+       
         CGFloat marginRadius = self.maxWidth-2*self.radius;
         CGContextRef ctx = UIGraphicsGetCurrentContext();
         CGContextSetFillColorWithColor(ctx, self.borderColor.CGColor);
@@ -104,7 +110,7 @@ static inline CGFloat distanceBetweenPoints (CGPoint pointA, CGPoint pointB) {
         NSMutableParagraphStyle *paragraphMaking = [[NSMutableParagraphStyle alloc] init];
         paragraphMaking.alignment = NSTextAlignmentCenter;
         BOOL isOverNumber = self.badgeNumber>99?YES:NO;
-        NSString *titleMaking = isOverNumber?[NSString stringWithFormat:@"%@",@"99+"]:[NSString stringWithFormat:@"%ld",self.badgeNumber];
+        NSString *titleMaking = isOverNumber?[NSString stringWithFormat:@"%@",@"99+"]:[NSString stringWithFormat:@"%ld",(long)self.badgeNumber];
         NSDictionary *attributesMaking = @{
                                            NSParagraphStyleAttributeName:paragraphMaking,
                                            NSFontAttributeName:[UIFont boldSystemFontOfSize:12],
@@ -127,7 +133,7 @@ static inline CGFloat distanceBetweenPoints (CGPoint pointA, CGPoint pointB) {
         NSMutableParagraphStyle *paragraphMaking = [[NSMutableParagraphStyle alloc] init];
         paragraphMaking.alignment = NSTextAlignmentCenter;
         BOOL isOverNumber = self.badgeNumber>99?YES:NO;
-        NSString *titleMaking = isOverNumber?[NSString stringWithFormat:@"%@",@"99+"]:[NSString stringWithFormat:@"%ld",self.badgeNumber];
+        NSString *titleMaking = isOverNumber?[NSString stringWithFormat:@"%@",@"99+"]:[NSString stringWithFormat:@"%ld",(long)self.badgeNumber];
         NSDictionary *attributesMaking = @{
                                            NSParagraphStyleAttributeName:paragraphMaking,
                                            NSFontAttributeName:[UIFont boldSystemFontOfSize:12],
@@ -154,7 +160,15 @@ static inline CGFloat distanceBetweenPoints (CGPoint pointA, CGPoint pointB) {
     
     [self setNeedsDisplay];
 }
-
+#pragma mark - 俩个圆心之间的距离
+- (CGFloat)pointToPoitnDistanceWithPoint:(CGPoint)pointA potintB:(CGPoint)pointB
+{
+    CGFloat offestX = pointA.x - pointB.x;
+    CGFloat offestY = pointA.y - pointB.y;
+    CGFloat dist = sqrtf(offestX * offestX + offestY * offestY);
+    
+    return dist;
+}
 - (UIBezierPath* )bezierPathWithFromPoint:(CGPoint)fromPoint
                                   toPoint:(CGPoint)toPoint
                                fromRadius:(CGFloat)fromRadius
@@ -165,7 +179,7 @@ static inline CGFloat distanceBetweenPoints (CGPoint pointA, CGPoint pointB) {
    CGFloat y1 = fromPoint.y;
    CGFloat x2 = toPoint.x;
    CGFloat y2 = toPoint.y;
-   CGFloat centerDistance = sqrtf((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
+   CGFloat centerDistance = [self pointToPoitnDistanceWithPoint:fromPoint potintB:toPoint];
     
     CGFloat cosDigree = 0;
     CGFloat sinDigree = 0;
@@ -179,14 +193,41 @@ static inline CGFloat distanceBetweenPoints (CGPoint pointA, CGPoint pointB) {
     cosDigree = self.cosDigree;
     sinDigree = self.sinDigree;
     
-   CGFloat  r1 = fromRadius;
+   CGFloat  r1 = fromRadius*0.7;
    CGFloat  r2 = toRadius;
    CGPoint pointA = CGPointMake(x1-r1*cosDigree, y1+r1*sinDigree);  // A
    CGPoint pointB = CGPointMake(x1+r1*cosDigree, y1-r1*sinDigree);  // B
    CGPoint pointD = CGPointMake(x2-r2*cosDigree, y2+r2*sinDigree);  // D
    CGPoint pointC = CGPointMake(x2+r2*cosDigree, y2-r2*sinDigree);  // C
-   CGPoint pointO = CGPointMake(pointA.x + (centerDistance / 2)*sinDigree, pointA.y + (centerDistance / 2)*cosDigree);
-   CGPoint pointP = CGPointMake(pointB.x + (centerDistance / 2)*sinDigree, pointB.y + (centerDistance / 2)*cosDigree);
+    //判断四个象限分别处理
+    CGFloat disX = self.currentMovingPoint.x - self.oringinCenter.x;
+    NSLog(@"cu:%lf mov:%lf",self.currentMovingPoint.x,self.oringinCenter.x);
+     NSLog(@"cu:%lf mov:%lf",self.currentMovingPoint.y,self.oringinCenter.y);
+    CGFloat disY = self.currentMovingPoint.y - self.oringinCenter.y;
+    CGPoint  pointO = CGPointMake(pointA.x+5 + (centerDistance / 2)*sinDigree, pointA.y+5 + (centerDistance / 2)*cosDigree);
+    CGPoint  pointP = CGPointMake(pointB.x-5 + (centerDistance / 2)*sinDigree, pointB.y-5 + (centerDistance / 2)*cosDigree);
+    if (disX>0 && disY<0) {
+        NSLog(@"在第一象限");
+        pointO = CGPointMake(pointA.x-5 + (centerDistance / 2)*sinDigree, pointA.y-5 + (centerDistance / 2)*cosDigree);
+        pointP = CGPointMake(pointB.x+5 + (centerDistance / 2)*sinDigree, pointB.y+5 + (centerDistance / 2)*cosDigree);
+
+    }else if (disX>0 && disY>0) {
+        NSLog(@"在第四象限");
+        pointO = CGPointMake(pointA.x + (centerDistance / 2)*sinDigree, pointA.y-5 + (centerDistance / 2)*cosDigree);
+        pointP = CGPointMake(pointB.x + (centerDistance / 2)*sinDigree, pointB.y+5 + (centerDistance / 2)*cosDigree);
+
+    }else if (disX<0 && disY>0) {
+        NSLog(@"在第三象限");
+        pointO = CGPointMake(pointA.x+5 + (centerDistance / 2)*sinDigree, pointA.y+5 + (centerDistance / 2)*cosDigree);
+        pointP = CGPointMake(pointB.x-5 + (centerDistance / 2)*sinDigree, pointB.y-5 + (centerDistance / 2)*cosDigree);
+    }else if (disX<0 && disY<0) {
+        NSLog(@"在第二象限");
+        pointO = CGPointMake(pointA.x + (centerDistance / 2)*sinDigree, pointA.y+5 + (centerDistance / 2)*cosDigree);
+        pointP = CGPointMake(pointB.x + (centerDistance / 2)*sinDigree, pointB.y-5 + (centerDistance / 2)*cosDigree);
+
+        
+    }
+    
     
 
     [path moveToPoint:pointA];
@@ -239,59 +280,5 @@ static inline CGFloat distanceBetweenPoints (CGPoint pointA, CGPoint pointB) {
     }
     return _borderColor;
 }
-//    CGFloat r = distanceBetweenPoints(fromPoint, toPoint);
-//    CGFloat offsetY = fabs(fromRadius-toRadius);
-//    if (r <= offsetY) {
-//        CGPoint center;
-//        CGFloat radius;
-//        if (fromRadius >= toRadius) {
-//            center = fromPoint;
-//            radius = fromRadius;
-//        } else {
-//            center = toPoint;
-//            radius = toRadius;
-//        }
-//        [path addArcWithCenter:center radius:radius startAngle:0 endAngle:2 * M_PI clockwise:YES];
-//    } else {
-//        CGFloat originX = toPoint.x - fromPoint.x;
-//        CGFloat originY = toPoint.y - fromPoint.y;
-//
-//        CGFloat fromOriginAngel = (originX >= 0)?atan(originY/originX):(atan(originY/originX)+M_PI);
-//        CGFloat fromOffsetAngel = (fromRadius >= toRadius)?acos(offsetY/r):(M_PI-acos(offsetY/r));
-//        CGFloat fromStartAngel = fromOriginAngel + fromOffsetAngel;
-//        CGFloat fromEndAngel = fromOriginAngel - fromOffsetAngel;
-//
-//        CGPoint fromStartPoint = CGPointMake(fromPoint.x+cos(fromStartAngel)*fromRadius, fromPoint.y+sin(fromStartAngel)*fromRadius);
-//
-//        CGFloat toOriginAngel = (originX < 0)?atan(originY/originX):(atan(originY/originX)+M_PI);
-//        CGFloat toOffsetAngel = (fromRadius < toRadius)?acos(offsetY/r):(M_PI-acos(offsetY/r));
-//        CGFloat toStartAngel = toOriginAngel + toOffsetAngel;
-//        CGFloat toEndAngel = toOriginAngel - toOffsetAngel;
-//        CGPoint toStartPoint = CGPointMake(toPoint.x+cos(toStartAngel)*toRadius, toPoint.y+sin(toStartAngel)*toRadius);
-//
-//        CGPoint middlePoint = CGPointMake(fromPoint.x+(toPoint.x-fromPoint.x)/2, fromPoint.y+(toPoint.y-fromPoint.y)/2);
-//        CGFloat middleRadius = (fromRadius+toRadius)/2;
-//
-//        CGPoint fromControlPoint = CGPointMake(middlePoint.x+sin(fromOriginAngel)*middleRadius*scale, middlePoint.y-cos(fromOriginAngel)*middleRadius*scale);
-//
-//        CGPoint toControlPoint = CGPointMake(middlePoint.x+sin(toOriginAngel)*middleRadius*scale, middlePoint.y-cos(toOriginAngel)*middleRadius*scale);
-//
-//        [path moveToPoint:fromStartPoint];
-//
-//        [path addArcWithCenter:fromPoint radius:fromRadius startAngle:fromStartAngel endAngle:fromEndAngel clockwise:YES];
-//
-//        if (r > (fromRadius+toRadius)) {
-//            [path addQuadCurveToPoint:toStartPoint controlPoint:fromControlPoint];
-//            [path addLineToPoint:CGPointMake(toStartPoint.x, toStartPoint.y+2*fromRadius)];
-//        }
-//
-//        [path addArcWithCenter:toPoint radius:toRadius startAngle:toStartAngel endAngle:toEndAngel clockwise:YES];
-////         [self linePathCircleWithPath:path withPoint:toPoint];
-//
-//        if (r > (fromRadius+toRadius)) {
-//            [path addQuadCurveToPoint:fromStartPoint controlPoint:toControlPoint];
-//        }
-//    }
-//
 
 @end

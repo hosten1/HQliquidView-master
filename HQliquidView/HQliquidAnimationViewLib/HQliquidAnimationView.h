@@ -14,8 +14,10 @@ typedef NS_ENUM(NSInteger, HQliquidAnimationViewState) {
     HQliquidAnimationViewStateSeperated = 2,    //处于分离状态，当分离后，距离靠近之后，并不会再度粘连
 };
 
+typedef void(^dragLiquidViewDidDistaceBlock)(CGFloat distance);
 @interface HQliquidAnimationView : UIView
-
+@property (nonatomic, copy) dragLiquidViewDidDistaceBlock distanceLiquidBlock;
+@property (assign,nonatomic) CGFloat maxTouchDistance;
 @property (nonatomic, assign) NSInteger badgeNumber;
 
 @property (nonatomic, assign) CGPoint oringinCenter;  //初始点
