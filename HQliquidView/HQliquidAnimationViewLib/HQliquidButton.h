@@ -28,12 +28,13 @@ typedef void(^dragLiquidViewDidStopReturnBlock)(HQliquidButton *liquid);
  */
 @property (nonatomic, assign) CGFloat maxDistance;
 
--(instancetype)initWithLocationCenter:(CGPoint)center bagdeNumber:(int)badgeNumber;
+-(instancetype)initWithLocationCenter:(CGPoint)center;
 /**
  *  跟新的数值的时候调用
  *
  *  @param bagdeNumber 数值
  */
--(void)updateBagdeNumber:(int)bagdeNumber;
-
+-(void)updateBagdeNumber:(NSInteger)bagdeNumber;
+/** 按钮消失的动画图片组 */
+@property (nonatomic, strong) NSMutableArray *images;
 @end

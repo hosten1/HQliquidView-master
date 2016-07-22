@@ -23,27 +23,44 @@
 
 @property (nonatomic, strong) HQliquidAnimationView *liquidAnimationView; //用于展示数字
 
+@property (nonatomic, assign) CGPoint oldPoint; //用于存储最初的位置
+@property (nonatomic, assign) CGRect oldBounds; //用于存储最初的位置
+@property (nonatomic, assign) CGPoint moveToPoint; //用于存储移动后的位置
+@property(nonatomic,assign)NSInteger isFirstInitNumber;
+@property(nonatomic,assign)BOOL oneCallBackBlick;
 @end
 
 @implementation HQliquidButton
+#pragma mark - 懒加载
+- (NSMutableArray *)images
+{
+    if (_images == nil) {
+        _images = [NSMutableArray array];
+        for (int i = 1; i < 9; i++) {
+            UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"%d.jpg",i]];
+            [_images addObject:image];
+        }
+    }
+    
+    return _images;
+}
 
 #pragma mark - initMethod
--(instancetype)initWithLocationCenter:(CGPoint)center bagdeNumber:(int)badgeNumber
+-(instancetype)initWithLocationCenter:(CGPoint)center
 {
     self = [super init];
     if (self) {
         
         self.center = CGPointMake(ceil(center.x), ceil(center.y));
-        self.layer.cornerRadius = 10;
+        _oldPoint = self.center;
+        self.oldBounds = CGRectMake(kLableX, kLableY,0 , 0);
+        self.layer.cornerRadius = center.x == center.y?center.x*0.5:center.y*0.5;
         self.layer.masksToBounds = YES;
         self.backgroundColor = [UIColor redColor];
-        
-        _bagdeNumber = badgeNumber;
-       
-        self.frame = CGRectMake(kLableX, kLableY, 30, 30);
-        
-        [self updateBagdeNumber:badgeNumber];
         [self insertSubview:self.badgeLabel aboveSubview:self];
+        _bagdeNumber=0;
+        _isFirstInitNumber = 0;
+        _oneCallBackBlick = false;
         //添加手势
         UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(gestureAction:)];
         [self addGestureRecognizer:pan];
@@ -52,37 +69,48 @@
 }
 -(void)setBagdeLableWidth:(CGFloat)bagdeLableWidth{
     _bagdeLableWidth = bagdeLableWidth;
-    
+    _isFirstInitNumber = 0;
     [self updateBagdeNumber:_bagdeNumber];
 }
 -(void)setBagdeNumber:(NSInteger)bagdeNumber{
-    _bagdeNumber = bagdeNumber;
-    [self updateBagdeNumber:bagdeNumber];
+     _bagdeNumber = 0;
+     _bagdeNumber = bagdeNumber;
+    if (_bagdeNumber != 0) {
+        _isFirstInitNumber = YES;
+        [self updateBagdeNumber:bagdeNumber];
+    }
 }
 #pragma mark - private
--(void)updateBagdeNumber:(int)bagdeNumber
+-(void)updateBagdeNumber:(NSInteger)bagdeNumber
 {
-    _bagdeNumber = bagdeNumber;
     if (!self.bagdeLableWidth) {
         _bagdeLableWidth = 20;
     }
     CGFloat width =ceil(_bagdeLableWidth);
     if (bagdeNumber < 10) {
-        self.frame = CGRectMake( kLableX, kLableY,width , width);
-        self.badgeLabel.center = CGPointMake(ceil(self.bounds.size.width*0.5),ceil( self.bounds.size.height*0.42));
-        self.badgeLabel.text = [NSString stringWithFormat:@"%d",bagdeNumber];
-    }else if (bagdeNumber < 100) {
-    
-        self.frame = CGRectMake(kLableX-2 , kLableY, width+7, width);
-        self.badgeLabel.center = CGPointMake(ceil(self.bounds.size.width*0.47), ceil(self.bounds.size.height*0.45));
-        self.badgeLabel.text = [NSString stringWithFormat:@"%d",bagdeNumber];
+//        if (_isFirstInitNumber != 1) {
+            self.frame = CGRectMake( self.oldBounds.origin.x+3, kLableY,width , width);
+            self.badgeLabel.center = CGPointMake(ceil(self.bounds.size.width*0.5),ceil( self.bounds.size.height*0.42));
+//        }
+
+            self.badgeLabel.text = [NSString stringWithFormat:@"%ld",(long)bagdeNumber];
+            _isFirstInitNumber = 1;
+    }else if (bagdeNumber < 100 ) {
+//        if (_isFirstInitNumber != 100) {
+            self.frame = CGRectMake(self.oldBounds.origin.x-5 , kLableY, width+7, width);
+            self.badgeLabel.center = CGPointMake(ceil(self.bounds.size.width*0.47), ceil(self.bounds.size.height*0.45));
+//        }
+        self.badgeLabel.text = [NSString stringWithFormat:@"%ld",(long)bagdeNumber];
+        _isFirstInitNumber = 100;
     }else{
+//        if (_isFirstInitNumber != 10) {
+            self.frame = CGRectMake(self.oldBounds.origin.x-10 , kLableY, width+12, width);
+            self.badgeLabel.center = CGPointMake(ceil(self.bounds.size.width*0.51),ceil(self.bounds.size.height*0.45));
+//        }
         
-        self.frame = CGRectMake(kLableX-4 , kLableY, width+12, width);
-        self.badgeLabel.center = CGPointMake(ceil(self.bounds.size.width*0.51),ceil(self.bounds.size.height*0.45));
         self.badgeLabel.text = @"99+";
+         _isFirstInitNumber = 10;
     }
-    CGSize size = [_badgeLabel contentSize];
 //    NSLog(@">>>>>>>>>>>>>>>>>>>%lf,%lf",kLableX,kLableY);
     _badgeLabel.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
     self.layer.cornerRadius = self.bounds.size.height*0.5;
@@ -107,6 +135,7 @@
 #pragma mark - gesture
 -(void)gestureAction:(UIPanGestureRecognizer *)pan
 {
+    WEAKSELF
     CGPoint currentPoint = [pan locationInView:LAST_WINDOW];
     switch (pan.state) {
         case UIGestureRecognizerStateBegan:
@@ -122,43 +151,64 @@
             self.liquidAnimationView.maxWidth = self.bounds.size.width;
             self.liquidAnimationView.maxDistance = self.maxDistance;
             [self.liquidAnimationView clearViewState];
+            
         }
             break;
         case UIGestureRecognizerStateChanged:
         {
             self.liquidAnimationView.currentMovingPoint = currentPoint;
+            _moveToPoint = CGPointMake(currentPoint.x,currentPoint.y);
         }
             break;
         case UIGestureRecognizerStateEnded:
         {
-            [UIView animateWithDuration:0.7 delay:0.0f usingSpringWithDamping:0.2f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-                self.hidden = NO;
-                WEAKSELF
-                self.liquidAnimationView.distanceLiquidBlock = ^(CGFloat distance){
-                    
-                    if (weakSelf.dragLiquidBlock && distance> self.maxDistance) {
-                        HQliquidButton *btn = [[HQliquidButton alloc]init];
-                        
-                           weakSelf.dragLiquidBlock(btn);
-                        
-                    };
-                    
-                };
-                //            NSLog(@"UIGestureRecognizerStateEnded");
-                [self.liquidAnimationView removeFromSuperview];
-            } completion:^(BOOL finished) {
-                
-            }];
-       
             
+                CGFloat disX = self.liquidAnimationView.currentMovingPoint.x - self.liquidAnimationView.oringinCenter.x;
+                CGFloat disY = self.liquidAnimationView.currentMovingPoint.y - self.liquidAnimationView.oringinCenter.y;
+                
+                self.transform = CGAffineTransformMakeTranslation(disX, disY); //x轴左右移动
+                [UIView animateWithDuration:0.6 delay:0.0f usingSpringWithDamping:0.3f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                    self.transform = CGAffineTransformIdentity;
+                    if (fabs(self.liquidAnimationView.currentDistance)  > self.maxDistance) {
+                        self.liquidAnimationView.currentDistance = self.liquidAnimationView.currentDistance;
+                        if (weakSelf.dragLiquidBlock ) {
+                            weakSelf.hidden = YES;
+                            weakSelf.dragLiquidBlock(weakSelf);
+                            //只允许执行一次回调操作
+                            weakSelf.oneCallBackBlick=true;
+//                            [self  startDestroyAnimations];
+                        }
+
+                    }else{
+
+                       self.hidden = NO;
+                    }
+                    //            NSLog(@"UIGestureRecognizerStateEnded");
+                    [self.liquidAnimationView removeFromSuperview];
+                    
+                } completion:^(BOOL finished) {
+//                    [self viewScaleAnimation];
+                }];
+                
+                
+                
+
+           
         }
             break;
         case UIGestureRecognizerStateCancelled:
         {
-            self.hidden = NO;
-//            NSLog(@"UIGestureRecognizerStateEnded");
-            [self.liquidAnimationView removeFromSuperview];
-            
+            CGFloat disX = self.liquidAnimationView.currentMovingPoint.x - self.liquidAnimationView.oringinCenter.x;
+            CGFloat disY = self.liquidAnimationView.currentMovingPoint.y - self.liquidAnimationView.oringinCenter.y;
+            //                NSLog(@"ddddddd>>>>>>>>>>%lf,%lf",disX,disY);
+            self.transform = CGAffineTransformMakeTranslation(disX, disY); //x轴左右移动
+            [UIView animateWithDuration:0.6 delay:0.0f usingSpringWithDamping:0.3f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                self.hidden = NO;
+                self.transform = CGAffineTransformIdentity;
+                [self.liquidAnimationView removeFromSuperview];
+            }completion:^(BOOL finished) {
+                
+            }];
         }
             break;
 
@@ -184,7 +234,43 @@
     }
     return _badgeLabel;
 }
+#pragma mark - button消失动画
+- (void)startDestroyAnimations
+{
+    UIImageView *ainmImageView = [[UIImageView alloc]init];
+    ainmImageView.bounds = CGRectMake(0, 0, 100, 100);
+    ainmImageView.center = self.liquidAnimationView.currentMovingPoint;
+    ainmImageView.animationImages = self.images;
+    ainmImageView.animationRepeatCount = 2;
+    ainmImageView.animationDuration = 0.6;
+    [ainmImageView startAnimating];
+    
+    [(UIWindow *)LAST_WINDOW addSubview:ainmImageView];
+}
+#pragma mark - 设置长按时候左右摇摆的动画
+//view缩放
+-(void)viewScaleAnimation
+{
+    
+    self.transform = CGAffineTransformMakeScale(0.5, 0.5); //先缩小
+    [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:0.3 initialSpringVelocity:10 options:UIViewAnimationOptionCurveLinear animations:^{
+        self.transform = CGAffineTransformIdentity;//恢复原状
+    } completion:^(BOOL finished) {
+        
+    }];
+}
 
+//view左右移动
+-(void)viewTranslationAnimation
+{
+    self.transform = CGAffineTransformMakeTranslation(20, 0); //x轴左右移动
+    [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:0.3 initialSpringVelocity:10 options:UIViewAnimationOptionCurveLinear animations:^{
+        self.transform = CGAffineTransformIdentity;
+    } completion:^(BOOL finished) {
+        [self viewScaleAnimation];
+    }];
+    
+}
 -(HQliquidAnimationView *)liquidAnimationView
 {
     if (!_liquidAnimationView) {

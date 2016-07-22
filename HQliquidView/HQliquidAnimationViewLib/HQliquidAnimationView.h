@@ -29,6 +29,7 @@ typedef void(^dragLiquidViewDidDistaceBlock)(CGFloat distance);
 
 @property (nonatomic, strong) UIColor *borderColor;
 
+@property (nonatomic, assign) CGFloat currentDistance;
 -(void)clearViewState;
 
 @end
