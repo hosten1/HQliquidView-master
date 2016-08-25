@@ -203,28 +203,27 @@ static inline CGFloat distanceBetweenPoints (CGPoint pointA, CGPoint pointB) {
 
     CGPoint  pointO = CGPointMake(pointA.x+5 + (centerDistance / 2)*sinDigree, pointA.y+5 + (centerDistance / 2)*cosDigree);
     CGPoint  pointP = CGPointMake(pointB.x-5 + (centerDistance / 2)*sinDigree, pointB.y-5 + (centerDistance / 2)*cosDigree);
-    if (disX>0 && disY<0) {
+    if (disX >=0 && disY<0) {
 //        NSLog(@"在第一象限");
         pointO = CGPointMake(pointA.x-5 + (centerDistance / 2)*sinDigree, pointA.y-5 + (centerDistance / 2)*cosDigree);
         pointP = CGPointMake(pointB.x+5 + (centerDistance / 2)*sinDigree, pointB.y+5 + (centerDistance / 2)*cosDigree);
 
-    }else if (disX>0 && disY>0) {
+    }else if (disX>=0 && disY>0) {
 //        NSLog(@"在第四象限");
-        pointO = CGPointMake(pointA.x + (centerDistance / 2)*sinDigree, pointA.y-5 + (centerDistance / 2)*cosDigree);
-        pointP = CGPointMake(pointB.x + (centerDistance / 2)*sinDigree, pointB.y+5 + (centerDistance / 2)*cosDigree);
+        pointO = CGPointMake(pointA.x+5 + (centerDistance / 2)*sinDigree, pointA.y-5 + (centerDistance / 2)*cosDigree);
+        pointP = CGPointMake(pointB.x-5 + (centerDistance / 2)*sinDigree, pointB.y+5 + (centerDistance / 2)*cosDigree);
 
-    }else if (disX<0 && disY>0) {
+    }else if (disX<0 && disY>=0) {
 //        NSLog(@"在第三象限");
         pointO = CGPointMake(pointA.x+5 + (centerDistance / 2)*sinDigree, pointA.y+5 + (centerDistance / 2)*cosDigree);
         pointP = CGPointMake(pointB.x-5 + (centerDistance / 2)*sinDigree, pointB.y-5 + (centerDistance / 2)*cosDigree);
-    }else if (disX<0 && disY<0) {
+    }else if (disX<0 && disY<=0) {
 //        NSLog(@"在第二象限");
-        pointO = CGPointMake(pointA.x + (centerDistance / 2)*sinDigree, pointA.y+5 + (centerDistance / 2)*cosDigree);
-        pointP = CGPointMake(pointB.x + (centerDistance / 2)*sinDigree, pointB.y-5 + (centerDistance / 2)*cosDigree);
+        pointO = CGPointMake(pointA.x-5 + (centerDistance / 2)*sinDigree, pointA.y+5 + (centerDistance / 2)*cosDigree);
+        pointP = CGPointMake(pointB.x+5 + (centerDistance / 2)*sinDigree, pointB.y-5 + (centerDistance / 2)*cosDigree);
 
         
     }
-    
     
 
     [path moveToPoint:pointA];
