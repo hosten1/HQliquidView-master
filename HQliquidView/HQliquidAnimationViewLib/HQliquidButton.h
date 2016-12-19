@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HQliquidAnimationView.h"
 @class HQliquidButton;
 
 typedef void(^dragLiquidViewDidStopReturnBlock)(HQliquidButton *liquid);
@@ -30,11 +31,12 @@ typedef void(^dragLiquidViewDidStopReturnBlock)(HQliquidButton *liquid);
 
 -(instancetype)initWithLocationCenter:(CGPoint)center;
 /**
- *  跟新的数值的时候调用
+ *  跟新的数值的时候调用(可以不用)
  *
  *  @param bagdeNumber 数值
  */
 -(void)updateBagdeNumber:(NSInteger)bagdeNumber;
 /** 按钮消失的动画图片组 */
 @property (nonatomic, strong) NSMutableArray *images;
+@property (nonatomic, strong) HQliquidAnimationView *liquidAnimationView; //用于展示数字
 @end

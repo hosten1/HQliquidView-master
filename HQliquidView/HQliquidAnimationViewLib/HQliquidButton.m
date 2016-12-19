@@ -20,9 +20,6 @@
 @interface HQliquidButton()
 
 @property (nonatomic, strong) UILabel *badgeLabel; //用于展示数字
-
-@property (nonatomic, strong) HQliquidAnimationView *liquidAnimationView; //用于展示数字
-
 @property (nonatomic, assign) CGPoint oldPoint; //用于存储最初的位置
 @property (nonatomic, assign) CGRect oldBounds; //用于存储最初的位置
 @property (nonatomic, assign) CGPoint moveToPoint; //用于存储移动后的位置
@@ -46,27 +43,39 @@
 }
 
 #pragma mark - initMethod
+
+-(void)awakeFromNib
+{
+    [super awakeFromNib];
+    [self layoutWithLocationCenter:self.center];
+}
+
 -(instancetype)initWithLocationCenter:(CGPoint)center
 {
     self = [super init];
     if (self) {
-        
-        self.center = CGPointMake(ceil(center.x), ceil(center.y));
-        _oldPoint = self.center;
-        self.oldBounds = CGRectMake(kLableX, kLableY,0 , 0);
-        self.layer.cornerRadius = center.x == center.y?center.x*0.5:center.y*0.5;
-        self.layer.masksToBounds = YES;
-        self.backgroundColor = [UIColor redColor];
-        [self insertSubview:self.badgeLabel aboveSubview:self];
-        _bagdeNumber=0;
-        _isFirstInitNumber = 0;
-        _oneCallBackBlick = false;
-        //添加手势
-        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(gestureAction:)];
-        [self addGestureRecognizer:pan];
+        [self layoutWithLocationCenter:center];
     }
     return self;
 }
+
+- (void)layoutWithLocationCenter:(CGPoint)center
+{
+    self.center = CGPointMake(ceil(center.x), ceil(center.y));
+    _oldPoint = self.center;
+    self.oldBounds = CGRectMake(kLableX, kLableY,0 , 0);
+    self.layer.cornerRadius = center.x == center.y?center.x*0.5:center.y*0.5;
+    self.layer.masksToBounds = YES;
+    self.backgroundColor = [UIColor redColor];
+    [self insertSubview:self.badgeLabel aboveSubview:self];
+    _bagdeNumber=0;
+    _isFirstInitNumber = 0;
+    _oneCallBackBlick = false;
+    //添加手势
+    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(gestureAction:)];
+    [self addGestureRecognizer:pan];
+}
+
 -(void)setBagdeLableWidth:(CGFloat)bagdeLableWidth{
     _bagdeLableWidth = bagdeLableWidth;
     _isFirstInitNumber = 0;
@@ -135,7 +144,7 @@
 #pragma mark - gesture
 -(void)gestureAction:(UIPanGestureRecognizer *)pan
 {
-    WEAKSELF
+    __weak HQliquidButton *weakSelf = self;
     CGPoint currentPoint = [pan locationInView:LAST_WINDOW];
     switch (pan.state) {
         case UIGestureRecognizerStateBegan:

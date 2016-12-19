@@ -10,7 +10,7 @@
 #import "HQliquidButton.h"
 
 @interface ViewController ()<UITableViewDelegate, UITableViewDataSource>
-
+@property (strong,nonatomic)HQliquidButton *cuteView;
 @end
 
 @implementation ViewController
@@ -18,14 +18,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    CGRect tabFrame =self.tabBarController.tabBar.frame;
-    CGFloat scale = [UIScreen mainScreen].bounds.size.width/375;
-    float percentX = (0.6/3)*scale;
-    CGFloat x = ceilf(percentX * tabFrame.size.width+(5*scale));
-    //    NSLog(@"tabbar >>>>>:%lf",it);
-        HQliquidButton *redPoint = [[HQliquidButton alloc] initWithLocationCenter:CGPointMake(x,tabFrame.origin.y+2) bagdeNumber:10];
-        redPoint.bagdeLableWidth = 18;
-        [self.tabBarController.tabBar addSubview:redPoint];
+    CGFloat width = [[UIScreen mainScreen] bounds].size.width / self.tabBarController.viewControllers.count;
+    self.cuteView = [[HQliquidButton alloc] initWithLocationCenter:CGPointMake(width / 2,0)];    self.cuteView.bagdeLableWidth = 18;
+    self.cuteView.maxDistance = 100;
+    self.cuteView.maxTouchDistance = 25;
+    self.cuteView.bagdeNumber = 10;
+    [self.tabBarController.tabBar addSubview:self.cuteView];
 
     // Do any additional setup after loading the view, typically from a nib.
     
@@ -69,11 +67,18 @@
                 num=99;
                 break;
         }
-        HQliquidButton *redPoint = [[HQliquidButton alloc] initWithLocationCenter:CGPointMake(self.view.bounds.size.width-30,20) bagdeNumber:num ];
-        redPoint.bagdeLableWidth = 20;
+    
+        HQliquidButton *redPoint = [[HQliquidButton alloc] initWithLocationCenter:CGPointMake(self.view.bounds.size.width-30,20)];
+        redPoint.maxTouchDistance = 30;
+        redPoint.bagdeLableWidth = 18;
+        redPoint.maxDistance = 100;
+        redPoint.bagdeNumber = num;
         [cell.contentView addSubview:redPoint];
         redPoint.dragLiquidBlock = ^(HQliquidButton *liquid) {
-            NSLog(@"回调乐");
+            if (liquid) {
+               
+                NSLog(@"hosten HQliquidButton block 这里处理需要的信息");
+            }
         };
      
     }
