@@ -1,5 +1,6 @@
 # HQliquidView-master
 
+# 该版本是在git上的几个项目做了合并优化，具体用到那些项目---忘了(抱歉)，具体项目头文件有作者；
 ![](https://github.com/hosten1/HQliquidView-master/blob/master/HQliquidView/recode.gif)  
 
 防qq小红点 本人只做了修改
